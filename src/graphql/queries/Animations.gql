@@ -1,0 +1,18 @@
+query {
+  animations {
+    id
+    name
+    style
+    jsonURL
+    downloads
+    created_at
+    user {
+      name 
+    }
+    tags {
+      type
+      description
+    }
+  }
+  
+}

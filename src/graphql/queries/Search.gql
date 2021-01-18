@@ -1,0 +1,16 @@
+query ($search: String!){
+ searchQuery(search: $search) {
+  id
+  name
+  style
+  jsonURL
+  downloads
+  created_at
+  tags {
+    description
+  }
+  user {
+    name
+  }
+}
+  }
