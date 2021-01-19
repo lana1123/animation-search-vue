@@ -1,6 +1,5 @@
 <template>
 <div class="animation-wrapper">
-   <cube v-if="animations==''"></cube>
    <div class="animation" v-for="animation in animations" :key="animation.id">
     <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 256px; height: 256px;"  loop autoplay></lottie-player>
  

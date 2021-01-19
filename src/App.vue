@@ -1,7 +1,7 @@
 <template>
 <div class="app-container">
   <div id="app">
-    <navbar @searchSubmit="getSearchText"></navbar>
+    <navbar @searchSubmit="getSearchText" @modal="getModalClick"></navbar>
     <home :animation="searchText"></home>
   <!--<router-view></router-view>-->
   </div>
@@ -20,12 +20,16 @@ export default {
   },
   data() {
     return {
-      searchText: ''
+      searchText: '',
+      modalClicked: ''
     }
   },
   methods: {
     getSearchText(value) {
       this.searchText = value;
+    },
+    getModalClick(value) {
+      this.modalClicked = value;
     }
   }
 }
@@ -50,6 +54,10 @@ body {
 
 .app-container {
 
+}
+
+.test {
+  background-color: white;
 }
 
 </style>

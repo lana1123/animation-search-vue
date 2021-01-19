@@ -1,6 +1,16 @@
 <template>
   <div id="nav">
  <div>
+
+ email: {{email}}
+ pw: {{password}}
+ ERROR: {{error}}
+ RETURN: {{dataReturn.data.login.user.name}}
+
+<button @click="userLogin()">Test login</button>
+ <button @click="userRegister()">Test Register</button>
+    <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
+
     <div class="mt-3">
       Submitted Names:
       <div v-if="submittedNames.length === 0">--</div>
@@ -62,6 +72,8 @@
       <a href="#" @click="$emit('modal','login')" v-b-modal.modal-prevent-closing>Login</a>
       <span>|</span>
       <a href="#" @click="$emit('modal','register')" v-b-modal.modal-prevent-closing>Register</a>
+      <!--<router-link to="/login">Login</router-link> |
+      <router-link to="/register">Register</router-link>-->
 
       </div>
   </div>
@@ -69,7 +81,9 @@
 </template>
 
 <script>
-const REGISTER_USER = `
+import gql from 'graphql-tag';
+
+const REGISTER_USER = gql`
 mutation registerUser (
   $name: String!
   $email: String!
@@ -85,14 +99,14 @@ mutation registerUser (
    }
  ) {
   tokens {
+    access_token
     user {
-      name
+      id
     }
   }
 }
   }
 `;
-
 
 const LOGIN_USER = `
 mutation loginUser (
@@ -111,6 +125,7 @@ mutation loginUser (
 }
   }
 `;
+
 
 export default {
   name: 'Navbar',
@@ -157,14 +172,13 @@ export default {
         // Push the name to submitted names
         this.submittedNames.push(this.email)
         this.submittedNames.push(this.password)
-        this.userLogin();
         // Hide the modal manually
         this.$nextTick(() => {
           this.$bvModal.hide('modal-prevent-closing')
         })
       },
         userLogin () {
-          fetch('http://animation-search.local/graphql', {
+         fetch('http://animation-search.local/graphql', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -173,60 +187,28 @@ export default {
         body: JSON.stringify({
           query: LOGIN_USER,
           variables: {
-              username: this.email,
-              password: this.password,
+              username: "lana_1123@hotmail.com",
+              password: "test1234",
           }
         })
       })
-        .then(r => r.json()).catch(err => {
-            this.error = err;
-          })
+        .then(r => r.json())
         .then(data => {
           console.log('data returned:', data);
-          if(data.data){
-            this.dataReturn = data.data.login.user.name;
-          }
-          else {
-            this.error = data.errors[0].message;
-          }
-          })
-          .catch(err => {
-            this.error = err;
+          this.dataReturn = data;
           });
           
       },
         userRegister () {
-         fetch('http://animation-search.local/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-          query: REGISTER_USER,
+          this.$apollo.mutate({
+           mutation: REGISTER_USER,
           variables: {
-             name: "Ju Myeon",
-             email: "jumyeon@gmail.com",
+            name: "Kyung Soo",
+            email: "kyungsoo@gmail.com",
              password: "test1123",
              password_confirmation: "test1123"
-          }
+         }
         })
-      })
-        .then(r => r.json()).catch(err => {
-            this.error = err;
-          })
-        .then(data => {
-          console.log('data returned:', data);
-          if(data.data){
-            this.dataReturn = data.data.register.tokens.user.name;
-          }
-          else {
-            this.error = data.errors[0].message;
-          }
-          })
-          .catch(err => {
-            this.error = err;
-          });
       }
     }
   
@@ -235,7 +217,7 @@ export default {
 
 <style>
 #nav {
-  background-color: black;
+  background-color: grey;
   height: 64px;
   display: flex;
   justify-content: center;
