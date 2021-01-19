@@ -1,30 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <img class="nav-bar-logo" src="./assets/lottiefiles_logo.svg" alt="logo">
-      
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      
-    </div>
-    
-    <router-view/>
+    <navbar></navbar>
+   <router-view></router-view>
   </div>
 </template>
 
 <script>
-
+import navbar from './views/Navbar'
 
 export default {
   name: 'app',
   components: {
+    navbar
   },
   data() {
     return {
 
     }
-  },
-  
+  }
 }
 
 </script>
@@ -45,22 +38,4 @@ body {
 
 }
 
-#nav {
-  background-color: white;
-  display: flex;
-  justify-content: space-around;
-}
-
-.nav-bar-logo {
-  height: 32px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>

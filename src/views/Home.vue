@@ -11,10 +11,9 @@
     <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <div class="animation-container">
-    <div>Loading...</div>
-
 
 <div class="animation-wrapper" v-if="animation === ''">
+   <cube v-if="animations==''"></cube>
    <div class="animation" v-for="animation in filteredAnimations" :key="animation.id">
     <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
  
@@ -25,6 +24,7 @@
   </div>
 </div>
 <div class="animation-wrapper" v-else>
+<cube v-if="searchQuery==''"></cube>
    <div class="animation" v-for="animation in filteredSearchedAnimations" :key="animation.id">
     <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
  
@@ -95,12 +95,11 @@ export default {
   data() {
     return {
       searchQuery : [],
-      animation: '',
       animations: [],
-      isLoading: true,
-      selectedFilter: ''
+      selectedFilter: '',
+      animation: ''
     }
-  },
+  }, 
   methods: {
     sortByPopularity() {
         let currentVar = this.animation? this.searchQuery: this.animations;
@@ -163,7 +162,7 @@ export default {
         else {
           return Object.filter(this.searchQuery, score => score.style !== this.selectedFilter); 
         }
-    },
+    }
   }
 
 }
@@ -191,6 +190,11 @@ export default {
   margin: 10px;
   flex: 1 1 0;
   background-color: pink;
+}
+
+button {
+height: 30px;
+border-radius: 5px;
 }
 
 </style>
