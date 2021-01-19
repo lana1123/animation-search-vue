@@ -20,7 +20,7 @@
  <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <div class="animation-container">
   <bounce height=200 v-if="animations==''"></bounce>
-    <div v-if="animation === ''">
+   <div v-if="animation === ''">
       <Animation :animations="filteredAnimations"></Animation>
     </div>
     <div v-else>

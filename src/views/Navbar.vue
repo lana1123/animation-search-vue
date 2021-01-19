@@ -1,18 +1,11 @@
 <template>
   <div id="nav">
  <div>
-    <div class="mt-3">
-      Submitted Names:
-      <div v-if="submittedNames.length === 0">--</div>
-      <ul v-else class="mb-0 pl-3">
-        <li v-for="name in submittedNames" :key="name.id">{{ name }}</li>
-      </ul>
-    </div>
-
     <b-modal
-      id="modal-prevent-closing"
+      id="modal-login"
       ref="modal"
       title="Login"
+      button-size="sm"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -49,6 +42,77 @@
         </b-form-group>
       </form>
     </b-modal>
+
+    <b-modal
+      id="modal-register"
+      ref="modal"
+      title="Register"
+      button-size="sm"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="handleOk"
+    >
+      <form ref="form" @submit.stop.prevent="handleSubmit">
+        <b-form-group
+          label="Name"
+          label-for="name-input"
+          invalid-feedback="Name is required"
+          :state="nameState"
+        >
+          <b-form-input
+            id="name-input"
+            type="text"
+            v-model="name"
+            :state="nameState"
+            required
+          ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          label="Email"
+          label-for="email-input"
+          invalid-feedback="Email is required"
+          :state="emailState"
+        >
+          <b-form-input
+            id="email-input"
+            type="email"
+            v-model="email"
+            :state="emailState"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          label="Password"
+          label-for="password-input"
+          invalid-feedback="Password is required"
+          :state="passwordState"
+        >
+          <b-form-input
+            id="password-input"
+            type="password"
+            v-model="password"
+            :state="passwordState"
+            required
+          ></b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          label="Password Confirmation"
+          label-for="password-confirmation-input"
+          invalid-feedback="Password does not match"
+          :state="passwordConfirmationState"
+        >
+          <b-form-input
+            id="password-confirmation-input"
+            type="password"
+            v-model="passwordConfirmation"
+            :state="passwordConfirmationState"
+            required
+          ></b-form-input>
+        </b-form-group>
+      </form>
+    </b-modal>
   </div>
 
   <div class="nav-container">
@@ -59,9 +123,18 @@
       <input type="text" v-model="animation" placeholder="Search by title, color, author..." v-on:keyup="$emit('searchSubmit',animation)"/>
       </div>
       <div class="nav-child">
-      <a href="#" @click="$emit('modal','login')" v-b-modal.modal-prevent-closing>Login</a>
+      <div v-if="username==''">
+      
+     <a href="#" @click="$emit('modal','login')" v-b-modal.modal-login >Login</a>
       <span>|</span>
-      <a href="#" @click="$emit('modal','register')" v-b-modal.modal-prevent-closing>Register</a>
+      <a href="#" @click="$emit('modal','register')" v-b-modal.modal-register >Register</a>
+      </div>
+      <div v-else>
+      <b-avatar variant="secondary" v-bind:text="username.substring(0,1)" class="mr-3"></b-avatar>
+      <b-dropdown id="dropdown-1" class="m-md-2" size="sm">
+    <b-dropdown-item @click="logoutUser">Logout</b-dropdown-item>
+  </b-dropdown>
+      </div>
 
       </div>
   </div>
@@ -119,11 +192,14 @@ export default {
   data() {
       return {
         name: '',
+        nameState: null,
         username: '',
         email: '',
         emailState: null,
         password: '',
         passwordState: null,
+        passwordConfirmation: '',
+        passwordConfirmationState: null,
         submittedNames: [],
         login: [],
         password_confirmation: '',
@@ -134,13 +210,24 @@ export default {
     methods: {
       checkFormValidity() {
         const valid = this.$refs.form.checkValidity()
-        this.emailState = valid
-        this.passwordState = valid
+         if(this.$refs.modal.id == 'modal-login') {
+            this.emailState = valid
+            this.passwordState = valid
+        }
+        else if(this.$refs.modal.id == 'modal-register') {
+            this.nameState = valid
+            this.emailState = valid
+            this.passwordState = valid
+            this.passwordConfirmationState = valid
+        }
+        
         return valid
       },
       resetModal() {
+        this.name = ''
         this.email = ''
         this.password = ''
+        this.passwordConfirmation = ''
         this.property = null
       },
       handleOk(bvModalEvt) {
@@ -150,17 +237,20 @@ export default {
         this.handleSubmit()
       },
       handleSubmit() {
-        // Exit when the form isn't valid
         if (!this.checkFormValidity()) {
           return
         }
-        // Push the name to submitted names
-        this.submittedNames.push(this.email)
-        this.submittedNames.push(this.password)
-        this.userLogin();
-        // Hide the modal manually
+
+        if(this.$refs.modal.id == 'modal-login') {
+          this.userLogin();
+        }
+        else if(this.$refs.modal.id == 'modal-register') {
+          this.userRegister();
+        }
+       
         this.$nextTick(() => {
-          this.$bvModal.hide('modal-prevent-closing')
+          this.$bvModal.hide('modal-login')
+          this.$bvModal.hide('modal-register')
         })
       },
         userLogin () {
@@ -184,7 +274,7 @@ export default {
         .then(data => {
           console.log('data returned:', data);
           if(data.data){
-            this.dataReturn = data.data.login.user.name;
+            this.username = data.data.login.user.name;
           }
           else {
             this.error = data.errors[0].message;
@@ -205,10 +295,10 @@ export default {
         body: JSON.stringify({
           query: REGISTER_USER,
           variables: {
-             name: "Ju Myeon",
-             email: "jumyeon@gmail.com",
-             password: "test1123",
-             password_confirmation: "test1123"
+             name: this.name,
+             email: this.email,
+             password: this.password,
+             password_confirmation: this.passwordConfirmation
           }
         })
       })
@@ -218,15 +308,20 @@ export default {
         .then(data => {
           console.log('data returned:', data);
           if(data.data){
-            this.dataReturn = data.data.register.tokens.user.name;
+            this.username = data.data.register.tokens.user.name;
           }
           else {
             this.error = data.errors[0].message;
           }
+          this.resetModal();
           })
           .catch(err => {
             this.error = err;
           });
+      },
+      logoutUser() {
+        this.username = '';
+        this.resetModal();
       }
     }
   
