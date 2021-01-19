@@ -19,7 +19,7 @@
 
 
 export default {
-  name: 'app',
+  name: 'Navbar',
   components: {
     
   },

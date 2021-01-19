@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-  <!--<input type="text" v-model="animation" placeholder="search"/>
-  <button @click="$emit('searchSubmit',animation)">Submit</button>-->
   <div class="sort-filter">
   <div class="sort">
   <p class="button-label">Sort by:</p>
@@ -21,40 +19,19 @@
   <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <div class="animation-container">
-
-<div class="animation-wrapper" v-if="animation === ''">
-   <cube v-if="animations==''"></cube>
-   <div class="animation" v-for="animation in filteredAnimations" :key="animation.id">
-    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 256px; height: 256px;"  loop autoplay></lottie-player>
- 
-  <div class="anim_name">{{animation.name}}</div>
-  <div>By: {{animation.user.name}}</div>
-  <br/>
-  <div class="anim_footer">
-  <div>{{ (animation.created_at).split(' ')[0]}}</div>
-   <div><img class="download-logo" src="../assets/download_icon_grey.svg" alt="logo">
-  {{animation.downloads}}</div>
-  </div>
-
-  </div>
-</div>
-<div class="animation-wrapper" v-else>
-<cube v-if="searchQuery==''"></cube>
-   <div class="animation" v-for="animation in filteredSearchedAnimations" :key="animation.id">
-    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 256px; height: 256px;"  loop autoplay></lottie-player>
- 
-  <div class="anim_name">{{animation.name}}</div>
-  <div>By: {{animation.user.name}}</div>
-  <div>{{(animation.created_at).split(' ')[0]}}</div>
-  <div>{{animation.downloads}}</div>
-  </div>
-  </div>
+    <div v-if="animation === ''">
+      <Animation :animations="filteredAnimations"></Animation>
+    </div>
+    <div v-else>
+    <Animation :animations="filteredSearchedAnimations"></Animation>
+    </div>
   </div>
   </div>
 </template>
 
 <script>
 import gql from 'graphql-tag'
+import Animation from './Animation'
 
 const GET_ALL_ANIMATIONS = gql`
   query {
@@ -95,6 +72,7 @@ query ($search: String!){
 export default {
   name: 'Home',
   components: {
+    Animation
   },
   props: [
     'animation'
@@ -197,12 +175,7 @@ export default {
   width: 100%;
 }
 
-.animation-wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  
-}
+
 
 .animation {
   margin: 10px;
@@ -210,6 +183,8 @@ export default {
   background-color: white;
   max-width: 256px;
   max-height: 400px;
+  border-radius: 5px;
+  padding: 5px;
 }
 
 button {
@@ -231,14 +206,6 @@ margin: 0 10px;
   margin-bottom: 10px;
 }
 
-.anim_name {
-  font-weight: bold;
-}
-
-.anim_footer {
-  display: flex;
-  justify-content: space-around;
-}
 
 /*.sort  {
   text-align: left;
