@@ -1,6 +1,7 @@
 <template>
   <div class="home">
-  <input type="text" v-model="animation" placeholder="search"/>
+  <!--<input type="text" v-model="animation" placeholder="search"/>
+  <button @click="$emit('searchSubmit',animation)">Submit</button>-->
   <button @click="sortByPopularity()">Sort by popularity</button>
   <button @click="sortByLatest()">Sort by latest</button>
   <button @click="sortByOldest()">Sort by oldest</button>
@@ -80,6 +81,9 @@ export default {
   name: 'Home',
   components: {
   },
+  props: [
+    'animation'
+  ],
   apollo: {
     animations: {
       query: GET_ALL_ANIMATIONS
@@ -97,7 +101,6 @@ export default {
       searchQuery : [],
       animations: [],
       selectedFilter: '',
-      animation: ''
     }
   }, 
   methods: {

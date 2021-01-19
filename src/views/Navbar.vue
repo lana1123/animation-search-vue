@@ -5,8 +5,8 @@
       <img class="nav-bar-logo" src="../assets/lottiefiles_logo.svg" alt="logo">
     </div>
       <div class="nav-child">
-
-  </div>
+      <input type="text" v-model="animation" placeholder="Search by title, color, author..." v-on:keyup="$emit('searchSubmit',animation)"/>
+      </div>
       <div class="nav-child">
       <router-link to="/login">Login</router-link> |
       <router-link to="/register">Register</router-link>
@@ -23,9 +23,6 @@ export default {
   components: {
     
   },
-  props: [
-    'SearchText'
-  ],
   data() {
     return {
 
@@ -68,5 +65,11 @@ export default {
     margin: auto;
 }
 
-
+input {
+width: 500px;
+height: 40px;
+border: 1px solid black;
+border-radius: 5px;
+padding: 0 20px;
+}
 </style>

@@ -1,21 +1,29 @@
 <template>
   <div id="app">
-    <navbar></navbar>
-   <router-view></router-view>
+    <navbar @searchSubmit="getSearchText"></navbar>
+    <home :animation="searchText"></home>
+  <!--<router-view></router-view>-->
   </div>
 </template>
 
 <script>
 import navbar from './views/Navbar'
+import home from './views/Home'
 
 export default {
   name: 'app',
   components: {
-    navbar
+    navbar,
+    home
   },
   data() {
     return {
-
+      searchText: ''
+    }
+  },
+  methods: {
+    getSearchText(value) {
+      this.searchText = value;
     }
   }
 }
