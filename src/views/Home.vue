@@ -2,35 +2,50 @@
   <div class="home">
   <!--<input type="text" v-model="animation" placeholder="search"/>
   <button @click="$emit('searchSubmit',animation)">Submit</button>-->
-  <button @click="sortByPopularity()">Sort by popularity</button>
-  <button @click="sortByLatest()">Sort by latest</button>
-  <button @click="sortByOldest()">Sort by oldest</button>
-  <button @click="filterBy('Emoji')">Filter by Emoji</button>
-  <button @click="filterBy('Illustrations')">Filter by Illustrations</button>
-  <button @click="filterBy('Icons')">Filter by Icons</button>
+  <div class="sort-filter">
+  <div class="sort">
+  <p class="button-label">Sort by:</p>
+  <button @click="sortByPopularity()">Popularity</button>
+  <button @click="sortByLatest()">Latest</button>
+  <button @click="sortByOldest()">Oldest</button>
+  </div>
+  <div class="filter">
+  <p class="button-label">Filter by:</p>
+  <button @click="filterBy('Emoji')">Emoji</button>
+  <button @click="filterBy('Illustrations')">Illustrations</button>
+  <button @click="filterBy('Icons')">Icons</button>
   <button @click="filterBy('')">Clear filters</button>
-    <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  </div>
+  </div>
+
+  <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
   <div class="animation-container">
 
 <div class="animation-wrapper" v-if="animation === ''">
    <cube v-if="animations==''"></cube>
    <div class="animation" v-for="animation in filteredAnimations" :key="animation.id">
-    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
+    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 256px; height: 256px;"  loop autoplay></lottie-player>
  
-  <div>{{animation.name}}</div>
-  <div>{{animation.created_at}}</div>
-  <div>{{animation.downloads}}</div>
+  <div class="anim_name">{{animation.name}}</div>
+  <div>By: {{animation.user.name}}</div>
+  <br/>
+  <div class="anim_footer">
+  <div>{{ (animation.created_at).split(' ')[0]}}</div>
+   <div><img class="download-logo" src="../assets/download_icon_grey.svg" alt="logo">
+  {{animation.downloads}}</div>
+  </div>
 
   </div>
 </div>
 <div class="animation-wrapper" v-else>
 <cube v-if="searchQuery==''"></cube>
    <div class="animation" v-for="animation in filteredSearchedAnimations" :key="animation.id">
-    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay></lottie-player>
+    <lottie-player :src="`${animation.jsonURL}`"  background="transparent"  speed="1"  style="width: 256px; height: 256px;"  loop autoplay></lottie-player>
  
-  <div>{{animation.name}}</div>
-  <div>{{animation.created_at}}</div>
+  <div class="anim_name">{{animation.name}}</div>
+  <div>By: {{animation.user.name}}</div>
+  <div>{{(animation.created_at).split(' ')[0]}}</div>
   <div>{{animation.downloads}}</div>
   </div>
   </div>
@@ -175,11 +190,11 @@ export default {
 <style>
 .home {
   width: 100%;
-  background-color: rgba(238, 225, 225, 0.671);
+
+  height: 100vh;
 }
 .animation-container {
   width: 100%;
-
 }
 
 .animation-wrapper {
@@ -192,12 +207,54 @@ export default {
 .animation {
   margin: 10px;
   flex: 1 1 0;
-  background-color: pink;
+  background-color: white;
+  max-width: 256px;
+  max-height: 400px;
 }
 
 button {
 height: 30px;
 border-radius: 5px;
+border: none;
+padding: 0 10px;
+outline: none;
+margin: 0 10px;
 }
 
+.button-label {
+  color: white;
+}
+
+.sort-filter {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+
+.anim_name {
+  font-weight: bold;
+}
+
+.anim_footer {
+  display: flex;
+  justify-content: space-around;
+}
+
+/*.sort  {
+  text-align: left;
+}
+
+.filter {
+  text-align: right;
+}
+
+.sort button {
+  margin-right: 10px;
+}
+
+.filter button {
+  margin-left: 10px;
+}*/
+
 </style>
+

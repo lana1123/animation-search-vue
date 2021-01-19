@@ -41,7 +41,7 @@ export default {
 }
 
 .nav-container {
-    width: 1200px;
+    width: 100%;
     display: flex;
     justify-content: space-around;
 }
