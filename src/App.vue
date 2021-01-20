@@ -38,7 +38,7 @@ export default {
 
 <style>
 body {
-  background-color: black;
+  background-color: black !important;
   margin: 0;
   padding: 0;
 }
@@ -52,12 +52,10 @@ body {
   margin: auto;
 }
 
-.app-container {
-
-}
-
 .test {
   background-color: white;
 }
+
+
 
 </style>

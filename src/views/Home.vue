@@ -16,7 +16,6 @@
   </div>
   </div>
 
-    
  <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <div class="animation-container">
   <bounce height=200 v-if="animations==''"></bounce>
@@ -177,17 +176,6 @@ export default {
 }
 
 
-
-.animation {
-  margin: 10px;
-  flex: 1 1 0;
-  background-color: white;
-  max-width: 256px;
-  max-height: 400px;
-  border-radius: 5px;
-  padding: 5px;
-}
-
 button {
 height: 30px;
 border-radius: 5px;
@@ -207,22 +195,15 @@ margin: 0 10px;
   margin-bottom: 10px;
 }
 
+@media (max-width: 768px) {
+  .sort, .filter {
+  display: flex;
+  flex-direction: column;
+  }
 
-/*.sort  {
-  text-align: left;
+  .sort button, .filter button {
+  margin: 5px 0;
+  }
 }
-
-.filter {
-  text-align: right;
-}
-
-.sort button {
-  margin-right: 10px;
-}
-
-.filter button {
-  margin-left: 10px;
-}*/
-
 </style>
 

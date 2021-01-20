@@ -406,10 +406,17 @@ span {
 }
 
 input {
-width: 500px;
+max-width: 500px;
 height: 40px;
 border: 1px solid black;
 border-radius: 5px;
 padding: 0 20px;
 }
+
+@media (min-width: 1280px) {
+input {
+  width: 500px;
+}
+}
+
 </style>
