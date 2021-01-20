@@ -301,7 +301,7 @@ export default {
           
       },
         userRegister () {
-         fetch('http://animation-search.local/graphql', {
+         fetch(`${VUE_APP_GRAPHQL_URL}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -335,7 +335,7 @@ export default {
           });
       },
       logoutUser() {
-        fetch('http://animation-search.local/graphql', {
+        fetch(`${VUE_APP_GRAPHQL_URL}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
