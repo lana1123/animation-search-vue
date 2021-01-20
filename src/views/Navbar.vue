@@ -196,6 +196,8 @@ mutation logoutUser{
   }
 `;
 
+const VUE_APP_GRAPHQL_URL = process.env.VUE_APP_GRAPHQL_URL;
+
 export default {
   name: 'Navbar',
   components: {
@@ -266,7 +268,7 @@ export default {
         })
       },
         userLogin () {
-          fetch('http://animation-search.local/graphql', {
+          fetch(`${VUE_APP_GRAPHQL_URL}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
