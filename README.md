@@ -1,24 +1,5 @@
-# animation-search-vue
-
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+- git clone from https://github.com/lana1123/animation-search-vue.git
+- cd animation-search-vue
+- npm i
+- paste .env into this project root folder
+- the URL VUE_APP_GRAPHQL_URL inside the .env should be changed according to the URL used for the Laravel backend
