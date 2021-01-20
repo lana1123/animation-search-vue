@@ -158,6 +158,7 @@ mutation registerUser (
    }
  ) {
   tokens {
+    access_token
     user {
       name
     }
@@ -178,9 +179,19 @@ mutation loginUser (
      password: $password
    }
  ) {
+   access_token
   user{
     name
   }
+}
+  }
+`;
+
+const LOGOUT_USER = `
+mutation logoutUser{
+ logout {
+  status
+  message
 }
   }
 `;
@@ -204,7 +215,8 @@ export default {
         login: [],
         password_confirmation: '',
         error: '',
-        dataReturn: ''
+        dataReturn: '',
+        token: ''
       }
     },
     methods: {
@@ -275,6 +287,7 @@ export default {
           console.log('data returned:', data);
           if(data.data){
             this.username = data.data.login.user.name;
+            this.token = data.data.login.access_token;
           }
           else {
             this.error = data.errors[0].message;
@@ -309,19 +322,45 @@ export default {
           console.log('data returned:', data);
           if(data.data){
             this.username = data.data.register.tokens.user.name;
+            this.token = data.data.register.tokens.access_token;
           }
           else {
             this.error = data.errors[0].message;
           }
-          this.resetModal();
           })
           .catch(err => {
             this.error = err;
           });
       },
       logoutUser() {
-        this.username = '';
-        this.resetModal();
+        fetch('http://animation-search.local/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization' : 'Bearer ' + this.token
+        },
+        body: JSON.stringify({
+          query: LOGOUT_USER
+        })
+      })
+        .then(r => r.json()).catch(err => {
+            this.error = err;
+          })
+        .then(data => {
+          console.log('data returned:', data);
+          if(data.data){
+            this.username = '';
+            this.token = '';
+          }
+          else {
+            this.error = data.errors[0].message;
+          }
+          })
+          .catch(err => {
+            this.error = err;
+          });
+          this.resetModal();
       }
     }
   
