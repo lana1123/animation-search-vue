@@ -183,6 +183,7 @@ border: none;
 padding: 0 10px;
 outline: none;
 margin: 0 10px;
+background-color: white;
 }
 
 .button-label {
