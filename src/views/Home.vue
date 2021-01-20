@@ -33,6 +33,7 @@
 import gql from 'graphql-tag'
 import Animation from './Animation'
 
+
 const GET_ALL_ANIMATIONS = gql`
   query {
   animations {

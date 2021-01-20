@@ -2,7 +2,6 @@
 <div class="app">
     <navbar @searchSubmit="getSearchText" @modal="getModalClick"></navbar>
     <home :animation="searchText"></home>
-  <!--<router-view></router-view>-->
 </div>
 </template>
 
