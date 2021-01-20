@@ -3,9 +3,9 @@
   <div class="sort-filter">
   <div class="sort">
   <p class="button-label">Sort by:</p>
-  <button @click="sortByPopularity()">Popularity</button>
-  <button @click="sortByLatest()">Latest</button>
-  <button @click="sortByOldest()">Oldest</button>
+  <button @click="sortBy('Popularity')">Popularity</button>
+  <button @click="sortBy('Latest')">Latest</button>
+  <button @click="sortBy('Oldest')">Oldest</button>
   </div>
   <div class="filter">
   <p class="button-label">Filter by:</p>
@@ -97,34 +97,33 @@ export default {
     }
   }, 
   methods: {
-    sortByPopularity() {
+    sortBy(value) {
         let currentVar = this.animation? this.searchQuery: this.animations;
 
-        currentVar.sort((a,b) => {
-        if((a.downloads) < (b.downloads)) {
-          return 1;
+        if(value == 'Popularity') {
+
+          currentVar.sort((a,b) => {
+          if((a.downloads) < (b.downloads)) {
+            return 1;
+          }
+          else if((a.downloads) > (b.downloads)) {
+            return -1;
+          }
+          return 0;
+        });
         }
-        else if((a.downloads) > (b.downloads)) {
-          return -1;
+        else if(value == 'Latest') {
+            currentVar.sort((a,b) => {
+            return new Date(b.created_at) - new Date(a.created_at);
+          });
+          return currentVar;
         }
-        return 0;
-      });
-    },
-    sortByLatest() {
-        let currentVar = this.animation? this.searchQuery: this.animations;
-
-      currentVar.sort((a,b) => {
-        return new Date(b.created_at) - new Date(a.created_at);
-      });
-      return currentVar;
-    },
-    sortByOldest() {
-        let currentVar = this.animation? this.searchQuery: this.animations;
-
-      currentVar.sort((a,b) => {
-        return new Date(a.created_at) - new Date(b.created_at);
-      });
-      return currentVar;
+        else if(value == 'Oldest') {
+          currentVar.sort((a,b) => {
+                  return new Date(a.created_at) - new Date(b.created_at);
+          });
+           return currentVar;
+        }
     },
     filterBy(category){
 

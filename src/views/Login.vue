@@ -17,7 +17,6 @@
 </template>
 
 <script>
-// import { LOGIN_USER } from '../constants/graphql';
 import gql from 'graphql-tag';
 
 const LOGIN_USER = gql`
