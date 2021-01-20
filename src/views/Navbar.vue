@@ -413,9 +413,44 @@ border-radius: 5px;
 padding: 0 20px;
 }
 
+.dropdown-menu {
+background-color: grey;
+}
+.dropdown-menu:hover {
+background-color: grey;
+color: black;
+}
+
+.dropdown-item {
+background-color: grey;
+  color: white;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+background-color: grey;
+  color: #9bf0f0;
+  cursor: pointer;
+}
+
 @media (min-width: 1280px) {
 input {
   width: 500px;
+}
+}
+
+@media (max-width: 768px) {
+#nav {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background-color: black;
 }
 }
 

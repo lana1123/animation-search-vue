@@ -1,10 +1,8 @@
 <template>
-<div class="app-container">
-  <div id="app">
+<div class="app">
     <navbar @searchSubmit="getSearchText" @modal="getModalClick"></navbar>
     <home :animation="searchText"></home>
   <!--<router-view></router-view>-->
-  </div>
 </div>
 </template>
 
@@ -38,12 +36,12 @@ export default {
 
 <style>
 body {
-  background-color: black !important;
-  margin: 0;
+  background-color: black;
+  margin: 0 auto;
   padding: 0;
 }
 
-#app {
+.app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -52,10 +50,14 @@ body {
   margin: auto;
 }
 
-.test {
-  background-color: white;
+@media (max-width: 768px) {
+body {
+  margin: 0 auto;
 }
 
-
+.app {
+ width: 100vw;
+}
+}
 
 </style>

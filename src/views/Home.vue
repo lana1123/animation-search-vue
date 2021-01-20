@@ -18,7 +18,7 @@
 
  <script type="application/javascript" src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <div class="animation-container">
-  <bounce height=200 v-if="animations==''"></bounce>
+  <bounce class="loading" v-if="animations==''"></bounce>
    <div v-if="animation === ''">
       <Animation :animations="filteredAnimations"></Animation>
     </div>
@@ -168,8 +168,8 @@ export default {
 <style>
 .home {
   width: 100%;
-
   height: 100vh;
+
 }
 .animation-container {
   width: 100%;
@@ -195,15 +195,27 @@ margin: 0 10px;
   margin-bottom: 10px;
 }
 
-@media (max-width: 768px) {
-  .sort, .filter {
-  display: flex;
-  flex-direction: column;
-  }
+.loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
 
-  .sort button, .filter button {
-  margin: 5px 0;
-  }
+@media (max-width: 768px) {
+.home {
+margin-top: 40px;
+}
+
+.sort, .filter {
+display: flex;
+flex-direction: column;
+}
+
+.sort button, .filter button {
+margin: 5px 0;
+}
 }
 </style>
 
