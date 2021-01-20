@@ -9,7 +9,7 @@ Vue.use(VueApollo)
 const AUTH_TOKEN = 'apollo-token'
 
 // Http endpoint
-const httpEndpoint = `${process.env.VUE_APP_GRAPHQL_URL}/graphql` || ''
+const httpEndpoint = `${process.env.VUE_APP_GRAPHQL_URL}/graphql` || 'http://ec2-54-151-170-220.ap-southeast-1.compute.amazonaws.com:8000/graphql'
 
 // Config
 const defaultOptions = {
