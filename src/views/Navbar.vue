@@ -83,7 +83,7 @@
         </b-form-group>
 
         <b-form-group
-          label="Password"
+          label="Password (min: 8 characters)"
           label-for="password-input"
           invalid-feedback="Password is required"
           :state="passwordState"
@@ -288,11 +288,15 @@ export default {
         .then(data => {
           console.log('data returned:', data);
           if(data.data){
+            this.error = '';
             this.username = data.data.login.user.name;
             this.token = data.data.login.access_token;
           }
           else {
-            this.error = data.errors[0].message;
+            this.error = data.errors[0].extensions.reason;
+            this.showAuthenticationError();
+            console.log('ERROR', this.error);
+
           }
           })
           .catch(err => {
@@ -323,11 +327,14 @@ export default {
         .then(data => {
           console.log('data returned:', data);
           if(data.data){
+            this.error = '';
             this.username = data.data.register.tokens.user.name;
             this.token = data.data.register.tokens.access_token;
           }
           else {
             this.error = data.errors[0].message;
+            this.showAuthenticationError();
+            console.log('ERROR', this.error);
           }
           })
           .catch(err => {
@@ -352,6 +359,7 @@ export default {
         .then(data => {
           console.log('data returned:', data);
           if(data.data){
+            this.error = '';
             this.username = '';
             this.token = '';
           }
@@ -363,7 +371,17 @@ export default {
             this.error = err;
           });
           this.resetModal();
-      }
+      },
+      showAuthenticationError() {
+        this.boxOne = ''
+        this.$bvModal.msgBoxOk(this.error)
+          .then(value => {
+            this.boxOne = value
+          })
+          .catch(err => {
+            console.log(err);
+          })
+      },
     }
   
 }
