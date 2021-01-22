@@ -286,7 +286,6 @@ export default {
             this.error = err;
           })
         .then(data => {
-          console.log('data returned:', data);
           if(data.data){
             this.error = '';
             this.username = data.data.login.user.name;
@@ -295,7 +294,6 @@ export default {
           else {
             this.error = data.errors[0].extensions.reason;
             this.showAuthenticationError();
-            console.log('ERROR', this.error);
 
           }
           })
@@ -325,7 +323,6 @@ export default {
             this.error = err;
           })
         .then(data => {
-          console.log('data returned:', data);
           if(data.data){
             this.error = '';
             this.username = data.data.register.tokens.user.name;
@@ -334,7 +331,6 @@ export default {
           else {
             this.error = data.errors[0].message;
             this.showAuthenticationError();
-            console.log('ERROR', this.error);
           }
           })
           .catch(err => {
@@ -357,7 +353,6 @@ export default {
             this.error = err;
           })
         .then(data => {
-          console.log('data returned:', data);
           if(data.data){
             this.error = '';
             this.username = '';
